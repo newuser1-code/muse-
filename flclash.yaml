@@ -1,0 +1,23 @@
+proxies:
+  - name: xray-usw1
+    type: vless
+    server: xray-ic1d4h3n-workspace-qeekc4.cloady.io
+    port: 443
+    uuid: 383540e6-d906-4707-a24f-3d68bd74ba00
+    tls: true
+    servername: xray-ic1d4h3n-workspace-qeekc4.cloady.io
+    network: ws
+    udp: true
+    ws-opts:
+      path: /f9897f66866b7f1d
+      headers:
+        Host: xray-ic1d4h3n-workspace-qeekc4.cloady.io
+
+proxy-groups:
+  - name: PROXY
+    type: select
+    proxies:
+      - xray-usw1
+
+rules:
+  - MATCH,PROXY
