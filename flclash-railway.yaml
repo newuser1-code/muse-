@@ -1,0 +1,73 @@
+# Railway 四节点订阅 - FlClash
+# 剩余额度：$5.00（Trial 一次性授信，2026-11-07 在 Railway Billing 页查询，Current Bill $0.00，本月已用 $0.0001）
+# 试用剩余时间：30 天，约至 2026-12-07 到期；额度用完即停服，没有每月 $1 免费额度
+# 一个月成本估算：按当前实际用量约 $5/月（内存合计约 0.49GB 约 $4.9，CPU 几乎为 0，出站流量另计 $0.05/GB）；若 4 个服务跑满分配额度，上限约 $200/月 + 出站流量费
+# 费率：CPU 约 $20/vCPU/月，内存约 $10/GB/月，出站流量 $0.05/GB
+# 镜像说明：4 个服务实际用 teddysun/xray:latest（官方 ghcr.io/xtls/xray-core 镜像无 shell，启动命令报错 The executable `sh` could not be found，构建失败后已按备用方案更换）
+# 项目：xray-nodes，https://railway.com/project/e1e1b3f9-3c55-4819-851b-dfc5053b3121
+
+proxies:
+  - name: Railway-美国-加州
+    type: vless
+    server: xray-us-west-production-2a41.up.railway.app
+    port: 443
+    uuid: 49031b33-fae2-472c-855c-465661c500f4
+    tls: true
+    servername: xray-us-west-production-2a41.up.railway.app
+    network: ws
+    udp: true
+    ws-opts:
+      path: /tk-rail
+      headers:
+        Host: xray-us-west-production-2a41.up.railway.app
+  - name: Railway-美国-弗吉尼亚
+    type: vless
+    server: xray-us-east-production-a1e3.up.railway.app
+    port: 443
+    uuid: 49031b33-fae2-472c-855c-465661c500f4
+    tls: true
+    servername: xray-us-east-production-a1e3.up.railway.app
+    network: ws
+    udp: true
+    ws-opts:
+      path: /tk-rail
+      headers:
+        Host: xray-us-east-production-a1e3.up.railway.app
+  - name: Railway-荷兰-阿姆斯特丹
+    type: vless
+    server: xray-eu-west-production-979d.up.railway.app
+    port: 443
+    uuid: 49031b33-fae2-472c-855c-465661c500f4
+    tls: true
+    servername: xray-eu-west-production-979d.up.railway.app
+    network: ws
+    udp: true
+    ws-opts:
+      path: /tk-rail
+      headers:
+        Host: xray-eu-west-production-979d.up.railway.app
+  - name: Railway-新加坡
+    type: vless
+    server: xray-singapore-production-4115.up.railway.app
+    port: 443
+    uuid: 49031b33-fae2-472c-855c-465661c500f4
+    tls: true
+    servername: xray-singapore-production-4115.up.railway.app
+    network: ws
+    udp: true
+    ws-opts:
+      path: /tk-rail
+      headers:
+        Host: xray-singapore-production-4115.up.railway.app
+
+proxy-groups:
+  - name: 节点选择
+    type: select
+    proxies:
+      - Railway-美国-加州
+      - Railway-美国-弗吉尼亚
+      - Railway-荷兰-阿姆斯特丹
+      - Railway-新加坡
+
+rules:
+  - MATCH,节点选择
